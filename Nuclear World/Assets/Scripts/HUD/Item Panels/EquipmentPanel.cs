@@ -38,10 +38,9 @@ public class EquipmentPanel : SlotsPanel {
         if (numberToEquipment.Count == 0)
             GenerateDictionaries();
         container = state;
-        Draw();
     }
 
-    private void Draw() {
+    protected override void Draw() {
         if (container.items[equipmentToNumber["PrimaryWeapon"]] != null) {
             AddCell(equipmentToNumber["PrimaryWeapon"], 
                 container.items[equipmentToNumber["PrimaryWeapon"]]);

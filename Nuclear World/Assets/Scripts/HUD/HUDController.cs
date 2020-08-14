@@ -1,24 +1,40 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour {
     public GameObject menu;
-    public GameObject inventoryEquipPanel;
+    public Sprite standartAimSprite;
+    public GameObject aim;
+    public GameObject inventoryEquipChestPanel;
     public InventoryPanel inventoryPanel;
     public EquipmentPanel equipmentPanel;
+    public ChestPanel chestPanel;
     public bool menuOpened = false;
     [NonSerialized]
     public Character player;
+    public bool inMenu = false;
+
+    public void ChangeAimSprite(Sprite s) {
+        if (s == null)
+            s = standartAimSprite;
+        aim.GetComponent<Image>().sprite = s;
+    }
 
     void Start() {
         
     }
 
     public void Close() {
+        inMenu = false;
         menu.SetActive(false);
-        inventoryEquipPanel.SetActive(false);
+        inventoryEquipChestPanel.SetActive(false);
+        inventoryPanel.Close();
+        chestPanel.Close();
+        equipmentPanel.Close();
     }
 
     public void SetInventory(Inventory state) {
@@ -29,22 +45,45 @@ public class HUDController : MonoBehaviour {
         equipmentPanel.SetEquipment(state);
     }
 
-    public void OpenMenu() {
-        if (inventoryEquipPanel.activeSelf) {
-            inventoryEquipPanel.SetActive(false);
-            menu.SetActive(true);
-        } else {
-            menu.SetActive(!menu.activeSelf);
+    public void CheckMenu() {
+        if (inMenu) {
+            Close();
+            return;
         }
+        inMenu = true;
+        Close();
+        menu.SetActive(true);
     }
 
-    public void OpenInventory() {
-        if (menu.activeSelf) {
-            menu.SetActive(false);
-            inventoryEquipPanel.SetActive(true);
-        }
-        else {
-            inventoryEquipPanel.SetActive(!inventoryEquipPanel.activeSelf);
-        }
+    public void CheckInventory() {
+        if (menu.activeSelf || !inventoryEquipChestPanel.activeSelf) {
+            OpenInventory();
+        } else {
+            Close();
+        }        
+    }
+
+    public void CheckChest(Chest chest) {
+        if (!inMenu)
+            OpenChest(chest);
+    }
+
+    private void OpenInventory() {
+        Close();
+        inMenu = true;
+        inventoryEquipChestPanel.SetActive(true);
+        chestPanel.Close();
+        equipmentPanel.Open();
+        inventoryPanel.Open();
+    }
+
+    public void OpenChest(Chest chest) {
+        Close();
+        inMenu = true;
+        inventoryEquipChestPanel.SetActive(true);
+        chestPanel.SetChest(chest.container);
+        chestPanel.Open();
+        equipmentPanel.Close();
+        inventoryPanel.Open();
     }
 }

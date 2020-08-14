@@ -45,4 +45,24 @@ public class SlotsPanel : MonoBehaviour {
     public virtual void ChangeItem(int number, Item state) {
         container.ChangeItem(number, state);
     }
+
+    protected virtual void Draw() {
+        for (int i = 0; i < container.items.Length; i++) {
+            if (container.items[i] == null)
+                continue;
+            AddCell(i, container.items[i]);
+        }
+    }
+
+    public virtual void Open() {
+        gameObject.SetActive(true);
+        Draw();
+    }
+
+    public virtual void Close() {
+        foreach (GameObject slot in emptySlots) {
+            Destroy(slot.GetComponent<EmptySlot>().cell);
+        }
+        gameObject.SetActive(false);
+    }
 }

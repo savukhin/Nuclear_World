@@ -40,7 +40,6 @@ public class Character : MonoBehaviour {
     }
 
     public void CheckAdditionalWeapon() {
-        print(currentWeaponNumber);
         if (currentWeaponNumber != 2)
             return;
         ChangeWeapon(2);
@@ -66,12 +65,11 @@ public class Character : MonoBehaviour {
         }
 
         Vector3 weaponPosition = weaponSpot.transform.position;
-        Quaternion weaponRotation = transform.rotation;
+        Quaternion weaponRotation = weaponSpot.transform.rotation;
 
         if (num == 1 && equipment.GetPrimaryWeaponPrefab() != null) {
             currentWeapon = Instantiate(equipment.GetPrimaryWeaponPrefab().GetComponent<PrimaryWeapon>(), weaponPosition, weaponRotation, transform);
         } else if (equipment.GetAdditionalWeaponPrefab() != null) {
-            print(equipment.GetAdditionalWeaponPrefab().GetComponent<AdditionalWeapon>());
             currentWeapon = Instantiate(equipment.GetAdditionalWeaponPrefab().GetComponent<AdditionalWeapon>(), weaponPosition, weaponRotation, transform);
         }
         currentWeaponNumber = num;
