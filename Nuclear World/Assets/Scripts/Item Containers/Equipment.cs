@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Equipment : Container {
-    public Item head;
-    public Item mask;
-    public Item body;
-    public Item cloack;
-    public Item arms;
-    public Item legs;
-    public Item boots;
+    public Head head;
+    public Mask mask;
+    public Body body;
+    public Cloack cloack;
+    public Arms arms;
+    public Legs legs;
+    public Boots boots;
     public PrimaryWeapon primaryWeapon;
     public AdditionalWeapon additionalWeapon;
     private Dictionary<int, string> numberToEquipment = new Dictionary<int, string>();
@@ -18,10 +18,6 @@ public class Equipment : Container {
 
     public Equipment() : base(9) {
                    
-    }
-
-    void Start() {
-        
     }
 
     public void GenerateDictionaries() {
@@ -67,18 +63,4 @@ public class Equipment : Container {
         else if (numberToEquipment[number] == "AdditionalWeapon")
             subject.CheckAdditionalWeapon();
     }
-
-    /*
-    public void ChangeItem(Item state) {
-        string type = state.GetType().ToString();
-        if (type == "PrimaryWeapon") {
-            items[equipmentToNumber[type]] = state.gameObject.GetComponent<PrimaryWeapon>();
-            primaryWeapon = state.gameObject.GetComponent<PrimaryWeapon>();
-        }
-        else if (type == "AdditionalWeapon") {
-            items[equipmentToNumber[type]] = state.gameObject.GetComponent<AdditionalWeapon>();
-            additionalWeapon = state.gameObject.GetComponent<AdditionalWeapon>();
-        }            
-    }
-    */
 }
