@@ -6,7 +6,8 @@ public class InteractiveObject : MonoBehaviour {
     public Sprite aimIcon;
     public enum interactiveObjectType {
         None,
-        Chest
+        Chest,
+        NPC
     }
     public interactiveObjectType type;
 }

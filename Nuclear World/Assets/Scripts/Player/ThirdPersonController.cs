@@ -48,13 +48,15 @@ public class ThirdPersonController : Character {
     private void UseInteractiveObject(InteractiveObject obj) {
         if (obj.type == InteractiveObject.interactiveObjectType.Chest)
             HUD.CheckChest(obj.gameObject.GetComponent<Chest>());
+        else if (obj.type == InteractiveObject.interactiveObjectType.NPC)
+            HUD.CheckDialogue(obj.gameObject.GetComponent<NPC>());
     }
 
     private GameObject GetTargetInFront() {
         RaycastHit result = new RaycastHit();
         Physics.Raycast(thirdPersonCamera.transform.position, thirdPersonCamera.transform.rotation * Vector3.forward, out result, 10f);
         if (result.collider == null)
-            return null;
+            return null;        
         return result.collider.gameObject;
     }
 
@@ -66,6 +68,7 @@ public class ThirdPersonController : Character {
             HUD.ChangeAimSprite(result.collider.gameObject.GetComponent<InteractiveObject>().aimIcon);
         else
             HUD.ChangeAimSprite(null);
+        
     }
 
     private void MoveAndRotate() {
@@ -78,7 +81,8 @@ public class ThirdPersonController : Character {
         rb.MovePosition(rb.position + direction * moveSpeed * Time.deltaTime);
         transform.Rotate(0f, Input.GetAxis("Mouse X") * 3f, 0f);
         weaponSpot.transform.Rotate( - Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
-        currentWeapon.transform.Rotate(-Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
+        if (currentWeapon != null)
+            currentWeapon.transform.Rotate(-Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
         thirdPersonCamera.transform.Rotate(- Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
     }
 }

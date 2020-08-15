@@ -10,8 +10,10 @@ public class HUDController : MonoBehaviour {
     public Sprite standartAimSprite;
     public GameObject aim;
     public GameObject inventoryEquipChestPanel;
+    public GameObject dialogueDark;
     public InventoryPanel inventoryPanel;
     public EquipmentPanel equipmentPanel;
+    public DialoguePanel dialoguePanel;
     public ChestPanel chestPanel;
     public bool menuOpened = false;
     [NonSerialized]
@@ -25,13 +27,14 @@ public class HUDController : MonoBehaviour {
     }
 
     void Start() {
-        
+        dialoguePanel.owner = this;
     }
 
     public void Close() {
         inMenu = false;
         menu.SetActive(false);
         inventoryEquipChestPanel.SetActive(false);
+        dialogueDark.SetActive(false);
         inventoryPanel.Close();
         chestPanel.Close();
         equipmentPanel.Close();
@@ -66,6 +69,13 @@ public class HUDController : MonoBehaviour {
     public void CheckChest(Chest chest) {
         if (!inMenu)
             OpenChest(chest);
+    }
+
+    public void CheckDialogue(NPC npc) {
+        inMenu = true;
+        dialogueDark.SetActive(true);
+        dialoguePanel.SetNPC(npc);
+        dialoguePanel.Open();
     }
 
     private void OpenInventory() {
