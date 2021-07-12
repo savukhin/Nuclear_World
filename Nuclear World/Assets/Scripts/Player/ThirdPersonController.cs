@@ -37,8 +37,9 @@ public class ThirdPersonController : Character {
             HUD.CheckInventory();
         } else if (Input.GetKeyDown(KeyCode.E)) {
             if (!HUD.inMenu) {
-                GameObject interactiveTarget = GetTargetInFront();
-                UseInteractiveObject(interactiveTarget.GetComponent<InteractiveObject>());
+                InteractiveObject interactiveTarget = GetTargetInFront().GetComponent<InteractiveObject>();
+                if (interactiveTarget)
+                    UseInteractiveObject(interactiveTarget);
             } else {
                 HUD.Close();
             }

@@ -61,7 +61,8 @@ public class SlotsPanel : MonoBehaviour {
 
     public virtual void Close() {
         foreach (GameObject slot in emptySlots) {
-            Destroy(slot.GetComponent<EmptySlot>().cell);
+            if (slot.GetComponent<EmptySlot>().cell)
+                Destroy(slot.GetComponent<EmptySlot>().cell.gameObject);
         }
         gameObject.SetActive(false);
     }
