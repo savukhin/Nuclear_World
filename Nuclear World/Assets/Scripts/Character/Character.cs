@@ -30,7 +30,9 @@ public class Character : MonoBehaviour {
     }
 
     public bool IsGrounded(float extraDimension = 0.1f) {
-        return Physics.BoxCast(model.GetComponent<Collider>().bounds.center, model.GetComponent<Collider>().bounds.size / 2 - new Vector3(extraDimension, extraDimension, extraDimension), new Vector3(1f, -1f, 1f), model.transform.rotation, 2 * extraDimension, platformLayerMask.value);
+        //return Physics.BoxCast(model.GetComponent<Collider>().bounds.center, model.GetComponent<Collider>().bounds.size / 2 - new Vector3(extraDimension, extraDimension, extraDimension), new Vector3(1f, -1f, 1f), model.transform.rotation, 2 * extraDimension, platformLayerMask.value);
+        //return Physics.BoxCast(model.GetComponent<Collider>().bounds.center, model.GetComponent<Collider>().bounds.size / 2 - new Vector3(extraDimension, extraDimension, extraDimension), new Vector3(1f, -1f, 1f), model.transform.rotation, 2 * extraDimension);
+        return true;
     }
 
     public void CheckPrimaryWeapon() {
@@ -58,6 +60,10 @@ public class Character : MonoBehaviour {
         }
     }
 
+    protected bool IsWearWeapon() {
+        return currentWeapon != null;
+    }
+
     protected void ChangeWeapon(int num) {
         if (currentWeapon != null) {
             Destroy(currentWeapon);
@@ -68,10 +74,16 @@ public class Character : MonoBehaviour {
         Quaternion weaponRotation = weaponSpot.transform.rotation;
 
         if (num == 1 && equipment.GetPrimaryWeaponPrefab() != null) {
-            currentWeapon = Instantiate(equipment.GetPrimaryWeaponPrefab().GetComponent<PrimaryWeapon>(), weaponPosition, weaponRotation, transform);
-        } else if (equipment.GetAdditionalWeaponPrefab() != null) {
-            currentWeapon = Instantiate(equipment.GetAdditionalWeaponPrefab().GetComponent<AdditionalWeapon>(), weaponPosition, weaponRotation, transform);
+            //currentWeapon = Instantiate(equipment.GetPrimaryWeaponPrefab().GetComponent<PrimaryWeapon>(), weaponPosition, weaponRotation, transform);
+            currentWeapon = Instantiate(equipment.GetPrimaryWeaponPrefab().GetComponent<PrimaryWeapon>(), weaponSpot.transform);
+        } else if (num == 2 && equipment.GetAdditionalWeaponPrefab() != null) {
+            //currentWeapon = Instantiate(equipment.GetAdditionalWeaponPrefab().GetComponent<AdditionalWeapon>(), weaponPosition, weaponRotation, transform);
+            currentWeapon = Instantiate(equipment.GetAdditionalWeaponPrefab().GetComponent<AdditionalWeapon>(), weaponSpot.transform);
         }
         currentWeaponNumber = num;
+    }
+
+    protected void Fire() {
+        currentWeapon.GetComponent<Weapon>().strike();
     }
 }

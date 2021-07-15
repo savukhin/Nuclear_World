@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3831025064100967927
+--- !u!1 &2426196544121893501
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,58 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1312733590964417931}
-  - component: {fileID: 1127084911154318671}
+  - component: {fileID: 4981160918345070573}
+  - component: {fileID: -7326761634075225406}
   m_Layer: 0
-  m_Name: Test Equipment
+  m_Name: Strike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1312733590964417931
+--- !u!4 &4981160918345070573
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3831025064100967927}
+  m_GameObject: {fileID: 2426196544121893501}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 19.50732, y: 3.8802814, z: 6.028718}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1127084911154318671
+--- !u!114 &-7326761634075225406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3831025064100967927}
+  m_GameObject: {fileID: 2426196544121893501}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4f8b159b001cae4696abdf79f45cd98, type: 3}
+  m_Script: {fileID: 11500000, guid: 96ab913e72f57594aa709fab0dc1fd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  head: {fileID: 0}
-  mask: {fileID: 0}
-  body: {fileID: 0}
-  cloack: {fileID: 0}
-  arms: {fileID: 0}
-  legs: {fileID: 0}
-  boots: {fileID: 0}
-  primaryWeapon: {fileID: 6924557061955801271, guid: 7707a19c41f798f4cb4f4223707e2b9d,
-    type: 3}
-  additionalWeapon: {fileID: 0}

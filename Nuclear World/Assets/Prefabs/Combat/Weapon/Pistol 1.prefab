@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3721845344836976181}
   - component: {fileID: 1026992395137320858}
   - component: {fileID: 7324197962123812586}
-  - component: {fileID: 1989144543289525976}
+  - component: {fileID: 6924557061955801271}
   m_Layer: 0
   m_Name: Pistol 1
   m_TagString: Untagged
@@ -30,7 +30,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.45625, y: 0.13952, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 379981978430209998}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -96,7 +97,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1989144543289525976
+--- !u!114 &6924557061955801271
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,7 +106,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 3299024020781305552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 457cef5389a020040bc828336c41cb6f, type: 3}
+  m_Script: {fileID: 11500000, guid: ac3843cc849f0ee45a2c677cb78e2f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 808c1ad2b8117394f86430ed73123839, type: 3}
+  firePoint: {fileID: 8692634255318950211}
+  strikePrefab: {fileID: 0}
+  fireRate: 0.3
+  strikeVFXPrefab: {fileID: 4177955232620417791, guid: c46a5786f81e839499924a1619d3a26e,
+    type: 3}
+  timeToFire: 0
+  bulletPrefab: {fileID: 7306080008872343202, guid: a8f48de1aa0af3e4fb56f21e1fbb1c07,
+    type: 3}
+--- !u!1 &8692634255318950211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 379981978430209998}
+  m_Layer: 0
+  m_Name: fire point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &379981978430209998
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8692634255318950211}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.648}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 177733309565378401}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

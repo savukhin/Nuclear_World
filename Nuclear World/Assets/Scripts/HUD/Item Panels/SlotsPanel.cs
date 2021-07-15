@@ -19,7 +19,7 @@ public class SlotsPanel : MonoBehaviour {
     }
 
     public virtual void AddCell(int number, Item state) {
-        GameObject newCell = Instantiate(Slot_prefab, emptySlots[number].transform.position, Quaternion.identity, transform.parent);
+        GameObject newCell = Instantiate(Slot_prefab, emptySlots[number].transform);
         emptySlots[number].GetComponent<EmptySlot>().cell = newCell.GetComponent<Cell>();
         newCell.GetComponent<Cell>().position = number;
         newCell.GetComponent<Cell>().currentSlot = emptySlots[number];

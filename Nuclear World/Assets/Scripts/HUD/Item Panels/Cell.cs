@@ -10,6 +10,7 @@ public class Cell : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
     public Image image;
     public LayerMask emptySlotLayerMask;
     public GameObject currentSlot;
+    private Transform parent;
 
     public void SetItem(Item state) {
         item = state;
@@ -17,7 +18,8 @@ public class Cell : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
     }
     
     public void OnBeginDrag(PointerEventData eventData) {
-        
+        parent = transform.parent;
+        transform.SetParent(transform.parent.parent.parent.parent);
     }
 
     public void OnDrag(PointerEventData eventData) {        
@@ -52,6 +54,7 @@ public class Cell : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
                 other.currentSlot = currentSlot;
                 currentSlot = temp;
                 other.transform.position = other.currentSlot.transform.position;
+                transform.SetParent(other.transform);
             } else {                
                 thisOwner.ChangeItem(currentSlot.GetComponent<EmptySlot>().number, null);
                 currentSlot = newSlot;

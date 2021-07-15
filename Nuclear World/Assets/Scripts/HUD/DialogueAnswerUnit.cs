@@ -14,12 +14,12 @@ public class DialogueAnswerUnit : MonoBehaviour {
     public answerType type;
 
     public DialogueAnswerUnit() : base() {
-        print("a123");
+        //print("a123");
     }
 
     public DialogueAnswerUnit(string s) : base() {
         nextUnit = new DialogueUnit();
         nextUnit.statement = s;
-        print("b123");
+        //print("b123");
     }
 }

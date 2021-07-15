@@ -38,6 +38,7 @@ public class HUDController : MonoBehaviour {
         inventoryPanel.Close();
         chestPanel.Close();
         equipmentPanel.Close();
+        dialoguePanel.ClearDialog();
     }
 
     public void SetInventory(Inventory state) {

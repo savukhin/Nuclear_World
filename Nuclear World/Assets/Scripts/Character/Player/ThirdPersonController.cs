@@ -23,6 +23,8 @@ public class ThirdPersonController : Character {
     void Update() {
         if (!HUD.inMenu) {
             MoveAndRotate();
+            if (Input.GetMouseButtonDown(0) && IsGrounded())
+                Fire();
             if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
                 Jump();
             if (Input.GetKeyDown(KeyCode.Tab)) {
@@ -37,9 +39,9 @@ public class ThirdPersonController : Character {
             HUD.CheckInventory();
         } else if (Input.GetKeyDown(KeyCode.E)) {
             if (!HUD.inMenu) {
-                InteractiveObject interactiveTarget = GetTargetInFront().GetComponent<InteractiveObject>();
-                if (interactiveTarget)
-                    UseInteractiveObject(interactiveTarget);
+                GameObject interactiveTarget = GetTargetInFront();
+                if (interactiveTarget.GetComponent<InteractiveObject>())
+                    UseInteractiveObject(interactiveTarget.GetComponent<InteractiveObject>());
             } else {
                 HUD.Close();
             }
@@ -64,7 +66,7 @@ public class ThirdPersonController : Character {
     private void CheckTargetInFront() {
         RaycastHit result = new RaycastHit();
         Physics.Raycast(thirdPersonCamera.transform.position, thirdPersonCamera.transform.rotation * Vector3.forward,  out result, 10f);
-        Debug.DrawRay(thirdPersonCamera.transform.position, thirdPersonCamera.transform.rotation * Vector3.forward, Color.blue);
+        Debug.DrawRay(thirdPersonCamera.transform.position, thirdPersonCamera.transform.rotation * Vector3.forward * 100, Color.blue);
         if (result.collider != null && result.collider.tag == "Interactive Object")
             HUD.ChangeAimSprite(result.collider.gameObject.GetComponent<InteractiveObject>().aimIcon);
         else
@@ -80,10 +82,19 @@ public class ThirdPersonController : Character {
 
 		Vector3 direction = new Vector3((h*Mathf.Cos(angleToX) + v*Mathf.Sin(angleToZ)), 0f, (h*Mathf.Sin(angleToX) + v*Mathf.Cos(angleToZ))).normalized;
         rb.MovePosition(rb.position + direction * moveSpeed * Time.deltaTime);
+
+        RaycastHit hit;
+        Vector3 rotation = new Vector3(-Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
         transform.Rotate(0f, Input.GetAxis("Mouse X") * 3f, 0f);
-        weaponSpot.transform.Rotate( - Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
-        if (currentWeapon != null)
-            currentWeapon.transform.Rotate(-Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
-        thirdPersonCamera.transform.Rotate(- Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
+        thirdPersonCamera.transform.Rotate(-Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
+        
+        if (Physics.Raycast(thirdPersonCamera.transform.position, thirdPersonCamera.transform.forward, out hit, 100)) {
+            var targetPoint = hit.point;
+            var q = Quaternion.LookRotation(targetPoint - weaponSpot.transform.position);
+            weaponSpot.transform.rotation = Quaternion.RotateTowards(weaponSpot.transform.rotation, q, 90 * Time.deltaTime);
+            print(hit);
+        } else {
+            weaponSpot.transform.Rotate( - Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
+        }
     }
 }
