@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro.EditorUtilities;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour {
     public LayerMask platformLayerMask;
     public float moveSpeed = 3f;
@@ -16,17 +17,27 @@ public class Character : MonoBehaviour {
     protected Weapon currentWeapon;
     protected int currentWeaponNumber = 1;
     public GameObject weaponSpot;
+    public Animator animator;
+    public float health;
+
+    protected virtual void Start() {
+        animator = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody>();
+        if (equipment_prefab != null) {
+            equipment = Instantiate(equipment_prefab);
+            equipment.GenerateDictionaries();
+            equipment.subject = this;
+        }
+        if (inventory_prefab != null) {
+            inventory = Instantiate(inventory_prefab);
+            inventory.subject = this;
+        }
+    }
+
+    protected virtual void Update() {}
 
     protected void Jump() {
         rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-    }
-
-    protected void initialize() {
-        equipment = Instantiate(equipment_prefab);
-        inventory = Instantiate(inventory_prefab);
-        equipment.GenerateDictionaries();
-        equipment.subject = this;
-        inventory.subject = this;
     }
 
     public bool IsGrounded(float extraDimension = 0.1f) {
@@ -85,5 +96,10 @@ public class Character : MonoBehaviour {
 
     protected void Fire() {
         currentWeapon.GetComponent<Weapon>().strike();
+    }
+
+    public void TakeDamage(float damage) {
+        health -= damage;
+        rb.AddForce((-transform.forward + transform.up) * 2, ForceMode.Impulse);
     }
 }

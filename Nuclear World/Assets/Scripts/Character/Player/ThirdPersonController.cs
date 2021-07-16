@@ -6,9 +6,8 @@ public class ThirdPersonController : Character {
     public HUDController HUD;
     public GameObject thirdPersonCamera;
 
-    void Start() {
-        initialize();
-        rb = GetComponent<Rigidbody>();
+    protected override void Start() {
+        base.Start();
         ChangeWeapon(currentWeaponNumber);
         HUD.player = this;
         if (inventory == null) {
@@ -20,7 +19,7 @@ public class ThirdPersonController : Character {
         HUD.SetEquipment(equipment);
     }
 
-    void Update() {
+    protected override void Update() {
         if (!HUD.inMenu) {
             MoveAndRotate();
             if (Input.GetMouseButtonDown(0) && IsGrounded())
@@ -88,11 +87,10 @@ public class ThirdPersonController : Character {
         transform.Rotate(0f, Input.GetAxis("Mouse X") * 3f, 0f);
         thirdPersonCamera.transform.Rotate(-Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
         
-        if (Physics.Raycast(thirdPersonCamera.transform.position, thirdPersonCamera.transform.forward, out hit, 100)) {
+        if (Physics.Raycast(thirdPersonCamera.transform.position, thirdPersonCamera.transform.forward, out hit, 100) && hit.collider.tag != "Volume") {
             var targetPoint = hit.point;
             var q = Quaternion.LookRotation(targetPoint - weaponSpot.transform.position);
             weaponSpot.transform.rotation = Quaternion.RotateTowards(weaponSpot.transform.rotation, q, 90 * Time.deltaTime);
-            print(hit);
         } else {
             weaponSpot.transform.Rotate( - Input.GetAxis("Mouse Y") * 2f, 0f, 0f);
         }

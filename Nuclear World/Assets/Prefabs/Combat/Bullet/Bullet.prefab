@@ -66,7 +66,8 @@ MonoBehaviour:
   maxDist: 1000
   hitVFX: {fileID: 4423042445546837720, guid: 94fa41e53e3aace4eb558ba47a90b6cb, type: 3}
   notWorkAgainstObjects: []
-  notWorkAgainstTags: []
+  notWorkAgainstTags:
+  - Volume
 --- !u!1 &9059987813028563711
 GameObject:
   m_ObjectHideFlags: 0
