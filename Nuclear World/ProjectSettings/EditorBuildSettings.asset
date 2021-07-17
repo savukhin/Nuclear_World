@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Server Map.unity
+    guid: 92cfe95494e8c98438731584ac9a5989
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 95bbb3ef8e69c8047ad58a2da605efe8
+    path: Assets/Scenes/Authentication Scene.unity
+    guid: 5fe229e6256516245b92963f7de60ca6
+  - enabled: 0
+    path: Assets/Scenes/Character Choice Scene.unity
+    guid: 5bcb1fc5e1d736d419bb5f7ec17fbb86
+  - enabled: 0
+    path: Assets/Scenes/Client.unity
+    guid: f2ae8bcf4cca6e4459e53d279a611cd2
   m_configObjects: {}

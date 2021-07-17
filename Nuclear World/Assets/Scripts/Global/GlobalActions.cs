@@ -5,6 +5,6 @@ using UnityEngine;
 
 public class GlobalActions : MonoBehaviour {
     public void ExitTheGame() {
-        EditorApplication.Exit(0);
+        //EditorApplication.Exit(0);
     }
 }
