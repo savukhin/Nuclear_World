@@ -13,6 +13,7 @@ import json
 
 @csrf_exempt
 def signIn(request):
+    print(request.POST)
     if request.method == 'POST':
         username = request.POST['username']
         user = authenticate(username=username, password=request.POST['password'])
@@ -26,10 +27,10 @@ def signIn(request):
                     jsonObject['NewConnectedUsers'].append(username)
                 with open("authentication/connectedUsers.json", "w") as jsonFile:
                     json.dump(jsonObject, jsonFile)
-            return JsonResponse({"csrfToken" : csrf_token}, status=200)
+            return JsonResponse({"csrfToken" : csrf_token, "sessionID" : request.session.session_key}, status=200)
 
-        return JsonResponse({'errors':[{"subject": "global", "text" : "Username or password is invalid"}], "csrfToken" : "None"}, status=401)
-    return JsonResponse({'errors' : [{'global' : 'Must be POST request'}], "csrfToken" : "None"}, status=401)
+        return JsonResponse({'errors':[{"subject": "global", "text" : "Username or password is invalid"}], "csrfToken" : "None", "sessionID" : "None"}, status=401)
+    return JsonResponse({'errors' : [{'global' : 'Must be POST request'}], "csrfToken" : "None", "sessionID" : "None"}, status=401)
 
 
 def signUp(request):

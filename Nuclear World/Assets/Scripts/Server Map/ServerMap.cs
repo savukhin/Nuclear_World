@@ -16,6 +16,17 @@ namespace ServerMapResponses {
         public string[] NewConnectedUsers;
         public string[] NewDiconnectedUsers;
     }
+
+    [Serializable]
+    public class GetNewTranforms {
+        [Serializable]
+        public class Item {
+            public string username;
+            //public Transform transform;
+            public JSONtypes.Transform transform;
+        }
+        public Item[] items;
+    }
 }
 
 public class ServerMap : MonoBehaviour {
@@ -23,28 +34,63 @@ public class ServerMap : MonoBehaviour {
     private readonly Uri serverURI = new Uri("http://127.0.0.1:8000");
     public GameObject spawnPoint;
     public GameObject playerPrefab;
-    private List<GameObject> players;
+    private Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
     private string CSRFtoken;
     CancellationTokenSource checkNewUsers_cts = new CancellationTokenSource();
 
     public void addPlayer(string username) {
-        print("INSTANTIATE");
-        players.Add(Instantiate(playerPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation));
+        if (players.ContainsKey(username))
+            return;
+        players.Add(username, Instantiate(playerPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation));
+        print("PLAYER " + username + " CONNECTED");
     }
 
-    public async void checkNewUsers(CancellationToken token) {
+    public void changeTransform(string username, JSONtypes.Transform JSONtransform) {
+        GameObject player = players[username];
+        print("username" + players);
+        if (player == null)
+            return;
+        print("START TRANSFORM " + player.transform);
+        player.transform.position = new Vector3(float.Parse(JSONtransform.positionX), 
+                                                        float.Parse(JSONtransform.positionY), float.Parse(JSONtransform.positionZ));
+        player.transform.rotation = new Quaternion(float.Parse(JSONtransform.rotationX), float.Parse(JSONtransform.rotationY), 
+                                                        float.Parse(JSONtransform.rotationZ), float.Parse(JSONtransform.rotationW));
+        print("END TRANSFORM " + player.transform);
+    }
+
+    public async Task checkNewUsers(int checkRate, CancellationToken token) {
         for (;;) {
             var response = await client.GetAsync(serverURI + "map/getNewUsersInfo", token);
             var responseString = await response.Content.ReadAsStringAsync();
             ServerMapResponses.GetNewUsers json;
             try {
                 json = JsonUtility.FromJson<ServerMapResponses.GetNewUsers>(responseString);
-                print(json + " " + json.NewConnectedUsers.Length);
+                //print(json + " " + json.NewConnectedUsers.Length);
                 foreach (var username in json.NewConnectedUsers)
                     addPlayer(username);
             } catch (Exception) {}
-            await Task.Delay(2000);
+            await Task.Delay(checkRate);
         }
+    }
+
+    public async Task checkNewTransforms(int checkRate, CancellationToken token) {
+        for (;;) {
+            var response = await client.GetAsync(serverURI + "map/getNewTransformsInfo", token);
+            var responseString = await response.Content.ReadAsStringAsync();
+            ServerMapResponses.GetNewTranforms json;
+            try {
+                json = JsonUtility.FromJson<ServerMapResponses.GetNewTranforms>(responseString);
+                foreach (var user in json.items) {
+                    changeTransform(user.username, user.transform);
+                }
+            } catch (Exception) {}
+            await Task.Delay(checkRate);
+        }
+    }
+
+    public void checkEverything(CancellationToken token) {
+        checkNewUsers(5000, token);
+        checkNewTransforms(1000, token);
     }
 
     // Start is called before the first frame update
@@ -66,8 +112,9 @@ public class ServerMap : MonoBehaviour {
             return;
         } else {
             print("SUCCESSFUL CONNECTION");
-            //PlayerPrefs.SetString("Server CSRF token", json.csrfToken);
-            checkNewUsers(checkNewUsers_cts.Token);
+            PlayerPrefs.SetString("Server CSRF token", json.csrfToken);
+            PlayerPrefs.SetString("Server Session ID", json.sessionID);
+            checkEverything(checkNewUsers_cts.Token);
         }
     }
 

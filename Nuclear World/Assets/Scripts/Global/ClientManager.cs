@@ -25,6 +25,7 @@ namespace ClientManagerResponses {
         public HttpStatusCode statusCode;
         public Error[] errors;
         public string csrfToken;
+        public string sessionID;
         
         public SignInResponse(HttpStatusCode code, Error[] errors, string token) {
             statusCode = code;
@@ -56,5 +57,11 @@ public static class ClientManager {
         ClientManagerResponses.SignInResponse json = JsonUtility.FromJson<ClientManagerResponses.SignInResponse>(responseString);
         json.statusCode = response.StatusCode;
         return json;
+    }
+
+    public static async Task SendTransform(Transform transform) {
+        var json = JSONConvertation.TransformToJSON(transform);
+        var content = new FormUrlEncodedContent(json);
+        var response = await client.PostAsync(serverURI + "map/updateTransform", content);
     }
 }

@@ -1,10 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class ThirdPersonController : Character {
     public HUDController HUD;
     public GameObject thirdPersonCamera;
+
+    private async void SendInfo() {
+        for (;;) {
+            await ClientManager.SendTransform(transform);
+            await Task.Delay(1000);
+        }
+    }
 
     protected override void Start() {
         base.Start();
@@ -17,6 +25,7 @@ public class ThirdPersonController : Character {
         if (equipment == null)
             equipment = new Equipment();
         HUD.SetEquipment(equipment);
+        SendInfo();
     }
 
     protected override void Update() {

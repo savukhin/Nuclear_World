@@ -22,6 +22,7 @@ public class Authentication : MonoBehaviour {
         } else {
             errorText.text = "SUCCESS";
             PlayerPrefs.SetString("CSRF token", t.csrfToken);
+            PlayerPrefs.SetString("Session ID", t.sessionID);
             SceneManager.LoadScene("Client");
         }
     }
